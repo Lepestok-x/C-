@@ -1,0 +1,81 @@
+#include <r3d/r3d.h>
+#include <raymath.h>
+
+int main(void)
+{
+    // Initialize window
+    InitWindow(1152, 648, "[r3d] - Render to texture");
+    SetTargetFPS(60);
+
+    // Initialize R3D
+    R3D_Init(GetScreenWidth(), GetScreenHeight());
+
+    // Create meshes
+    R3D_Mesh plane = R3D_GenMeshPlane(1000, 1000, 1, 1);
+    R3D_Mesh sphere = R3D_GenMeshSphere(0.5f, 64, 64);
+    R3D_Material material = R3D_GetDefaultMaterial();
+
+    // Setup environment
+    R3D_ENVIRONMENT_SET(ambient.color, (Color){40, 40, 40, 255});
+
+    // Create light
+    R3D_Light light = R3D_CreateSpotLight((Vector3) {0, 10, 5}, (Vector3) {0, -1, -0.5f}, 50.0f, WHITE, 1.0f);
+    R3D_ShadowMap shadow = R3D_LoadShadowMap(R3D_LIGHT_SPOT);
+    shadow.softness = 4.0f;
+
+    // Render texture
+    RenderTexture target = LoadRenderTexture(1024, 512);
+
+    // Setup cameras
+    Camera3D r3dCamera = {
+        .position = {0, 2, 2},
+        .target   = {0, 0, 0},
+        .up       = {0, 1, 0},
+        .fovy     = 60
+    };
+    Camera3D rlCamera = {
+        .position = {0, 1, 4},
+        .target   = {0, 1, -1},
+        .up       = {0, 1, 0},
+        .fovy     = 60
+    };
+
+    DisableCursor();
+
+    // Main loop
+    while (!WindowShouldClose())
+    {
+        UpdateCamera(&r3dCamera, CAMERA_ORBITAL);
+        UpdateCamera(&rlCamera, CAMERA_FREE);
+
+        BeginDrawing();
+            ClearBackground(DARKGRAY);
+
+            R3D_View view = {
+                .camera = R3D_CameraFromRL(r3dCamera),
+                .target = target,
+            };
+
+            R3D_BeginPro(view);
+                R3D_PushLightEx(light, shadow, false);
+                R3D_DrawMesh(plane, material, (Vector3) {0, -0.5f, 0}, 1.0f);
+                R3D_DrawMesh(sphere, material, Vector3Zero(), 1.0f);
+            R3D_End();
+
+            BeginMode3D(rlCamera);
+                DrawBillboard(rlCamera, target.texture, (Vector3) {0, 1, 0}, -2, WHITE);
+                DrawGrid(10, 1);
+            EndMode3D();
+
+        EndDrawing();
+    }
+
+    // Cleanup
+    R3D_UnloadMesh(sphere);
+    R3D_UnloadMesh(plane);
+    R3D_Close();
+
+    CloseWindow();
+
+    return 0;
+}
