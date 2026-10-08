@@ -16,7 +16,7 @@ class Box {
     float length{};
     float angle{}, speed = 150.f;
     float normalSpeed = 1.f;
-    float gravitate {18.9f};
+    float gravitate {-18.9f};
     float velocity {};
 public:
     Box(const Vector3& position, const float& width, const float& height, const float& length, const Color& color) {
@@ -27,9 +27,14 @@ public:
         this->color = color;
      };
     void update(Camera3D& camera3_d, const float& time) {
+        if (IsKeyPressed(KEY_SPACE)) {
+            std::cout << "Backspace" << std::endl;
+            velocity = -gravitate;
+        }
+
         oldPosition = position;
         velocity += gravitate * time;
-        position.y -= velocity * time;
+        position.y += velocity * time;
 
         normal = {.x = 0.f, .y = 0.f, .z = 0.f,};
         if (IsKeyDown(KEY_W)) normal.z -= normalSpeed;
@@ -39,10 +44,7 @@ public:
 
         if (IsKeyDown(KEY_Q)) position.y -= speed * time;
         if (IsKeyDown(KEY_E)) position.y += speed * time;
-        if (IsKeyPressed(KEY_SPACE)) {
-            std::cout << "Backspace" << std::endl;
-            velocity = -gravitate;
-        }
+
         if (normal.z != 0 || normal.x != 0) {
             normal = Vector3Normalize(normal);
             position.x += normal.x * speed * time;

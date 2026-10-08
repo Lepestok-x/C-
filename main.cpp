@@ -16,7 +16,7 @@ static constexpr int screedWidth = 1000;
 static constexpr int screedHeight = 650;
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
-    InitWindow(screedWidth, screedHeight, "Chasing Twilight");
+    InitWindow(screedWidth, screedHeight, "Chasing Twilight - (C++)");
     SetTargetFPS(60);
     while (!WindowShouldClose()) {
 

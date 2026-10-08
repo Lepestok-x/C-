@@ -14,7 +14,7 @@ public:
         this->position = {.x = 0.f, .y = 35.f, .z = 35.f};
         this->target = {.x = 0.f, .y = 0.f, .z = 0.f};
         this->up = {.x = 0.0f, .y = 1.0f, .z = 0.0f};
-        this->fovy = 60.f; // degrees
+        this->fovy = 60.f; // corner
         this->projection = CAMERA_PERSPECTIVE;
     }
 };
