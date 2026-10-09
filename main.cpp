@@ -1,9 +1,5 @@
 #include <cmath>
-#include <iostream>
 #include <raylib.h>
-#include <vector>
-#include <raymath.h>
-
 #include "configurations/Collision.h"
 #include "configurations/Box.h"
 #include "configurations/Floor.h"
@@ -30,12 +26,9 @@ int main() {
            EndMode3D();
            DrawFPS(10, 10);
         EndDrawing();
-
+        floor_f.update_color((collision_.collision(box, floor_f)) ? GRAY : WHITE);
         if (collision_.collision(box, floor_f)) {
             box.rollback();
-            floor_f.update_color(GRAY);
-        } else {
-            floor_f.update_color(WHITE);
         }
     }
     CloseWindow();

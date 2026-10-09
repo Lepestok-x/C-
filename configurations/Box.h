@@ -14,7 +14,7 @@ class Box {
     float width{};
     float height{};
     float length{};
-    float angle{}, speed = 150.f;
+    float angle{}, speed = 50.f;
     float normalSpeed = 1.f;
     float gravitate {-18.9f};
     float velocity {};
