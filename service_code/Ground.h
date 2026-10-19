@@ -14,10 +14,8 @@ class Ground {
       float angle{};
       float distance{};
 public:
-    constexpr Ground(const Vector3 &position, const Vector3 &scale, const float angle, const float distance, const Color& color) {
+    constexpr Ground(const Vector3 &position, const Vector3 &scale, const Color& color) {
         this->position = position;
-        this->position.x += sinf(angle * RAD2DEG) * distance;
-        this->position.y += -cosf(angle * RAD2DEG) * distance;
         this->scale = scale;
         this->color = color;
     }
