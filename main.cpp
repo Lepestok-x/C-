@@ -3,13 +3,17 @@
 #include <raymath.h>
 #include <vector>
 
+#include "service_code/BodyCollision.h"
+#include "service_code/btGravitate.h"
 #include "service_code/Ground.h"
 #include "service_code/Listener.h"
 #include "service_code/Player.h"
 static int screen_width = 1000;
 static int screen_height = 650;
 static const char* title = "Raylib";
-static Player* player = new Player({.x = .0f, .y = .0f, .z = .0f}, {.x = 2.f, .y = 2.f, .z = 2.f}, RED);
+static Player* player = new Player({.x = -35.f, .y = .0f, .z = -35.f}, {.x = 2.f, .y = 2.f, .z = 2.f}, RED);
+static btGravitate* gravitate = new btGravitate{-18.9f}; // Сила притяжения
+static BodyCollision body_collision;
 static Listener listener_focus;
 static std::vector<Ground*> grounds(8); // фиксируем размер, максимум 8 грунтов.
 int main() {
@@ -27,12 +31,12 @@ int main() {
         .fovy = 60.f,
         .projection = CAMERA_PERSPECTIVE
     };
-    for (int i = 0; i < 12; i++) {
-        const float angle = 90;
+    for (int i = 0; i < 8; i++) {
+        const float angle = (7 * static_cast<float>(i));
         const float degreesZ = (sinf(angle) * -40.f);
         const float degreesX = (cosf(angle) * -35.f);
         const float z = (-35 + (degreesZ));
-        grounds.push_back(new Ground({.x = degreesX, .y = -35 + (-15.0f * static_cast<float>(i)), .z = z},{.x = 50.f, .y = .5f, .z = 50.f}, WHITE));
+        grounds.push_back(new Ground({.x = degreesX, .y = -35 + (-8.0f * static_cast<float>(i)), .z = z},{.x = 50.f, .y = .5f, .z = 50.f}, WHITE));
     }
     DisableCursor();
     while (!WindowShouldClose()) {
@@ -44,6 +48,19 @@ int main() {
         camera.position.x = camera.target.x + -sinf(cameraAngleX) * cosf(cameraAngleY) * distance;
         camera.position.y = camera.target.y + sinf(cameraAngleY) * distance;
         camera.position.z = camera.target.z + cosf(cameraAngleX) * cosf(cameraAngleY) * distance;
+        player->saveCurrentPosition();
+        gravitate->gravitateBody(*player);
+
+        const BoundingBox body_player = body_collision.rectangleBody(player->v_position(), player->v_scale());
+        for (Ground* ground : grounds) {
+            if (ground == nullptr) continue;
+                const BoundingBox body_ground = body_collision.rectangleBody(ground->v_position(), ground->v_scale());
+                if (body_collision.rectangle(body_player, body_ground)) {
+                    player->updateOldPosition();
+                    break;
+                }
+        }
+
         BeginDrawing();
            BeginMode3D(camera);
               ClearBackground(BLACK);
@@ -63,7 +80,10 @@ int main() {
     delete player;
     for(const Ground* ground : grounds) {
         delete ground;
+        ground = nullptr;
     }
     grounds.clear();
+    delete gravitate;
+    gravitate = nullptr;
     return 0;
 }

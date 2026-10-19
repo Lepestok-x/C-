@@ -22,5 +22,11 @@ public:
     void drawGround() const {
        DrawCubeV(position, scale, color);
     }
+    [[nodiscard]] Vector3 &v_position() {
+        return  position;
+    }
+    [[nodiscard]] Vector3 &v_scale() {
+        return scale;
+    }
 };
 #endif

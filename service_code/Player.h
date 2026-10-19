@@ -9,10 +9,12 @@
 #include <rlgl.h>
 class Player {
     Vector3 position{};
+    Vector3 oldPosition{};
     Vector3 scale{};
     Color color{};
     float angle{};
     float speed{50.f};
+    float velocityY{};
 public:
     constexpr Player(const Vector3& pos, const Vector3& scale, const Color& color) : position(pos), scale(scale), color(color) {}
 
@@ -33,12 +35,26 @@ public:
         camera.position.y = position.y + distance;
         camera.position.z = position.z + distance;
     }
+    void saveCurrentPosition() {
+        this->oldPosition = position;
+    }
+    void updateVelocity(const float& gravitate, const float& dt) {
+        this->velocityY += gravitate * dt;
+        this->position.y += velocityY * dt;
+    }
+    void updateOldPosition() {
+        this->position.y = oldPosition.y;
+        velocityY = .0f;
+    }
 
     void rotateCube(const float& angle) {
         this->angle = angle;
     }
-    [[nodiscard]] Vector3 v_position() const {
+    [[nodiscard]] Vector3 &v_position() {
         return  position;
+    }
+    [[nodiscard]] Vector3 &v_scale() {
+        return scale;
     }
 };
 #endif //MY_CLEAN_GAME_PLAYER_H
