@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <raylib.h>
 #include <raymath.h>
@@ -12,7 +13,7 @@ static int screen_width = 1000;
 static int screen_height = 650;
 static const char* title = "Raylib";
 static Player* player = new Player({.x = -35.f, .y = .0f, .z = -35.f}, {.x = 2.f, .y = 2.f, .z = 2.f}, RED);
-static btGravitate* gravitate = new btGravitate{-18.9f}; // Сила притяжения
+static btGravitate* gravitate = new btGravitate{-40.9f}; // Сила притяжения
 static BodyCollision body_collision;
 static Listener listener_focus;
 static std::vector<Ground*> grounds(8); // фиксируем размер, максимум 8 грунтов.
@@ -23,7 +24,6 @@ int main() {
 
     float cameraAngleX = 0.f;
     float cameraAngleY = 0.5f;
-    const float distance = 25.f;
     Camera3D camera = {
         .position = {.x = .0f, .y = 25.f, .z = 25.f},
         .target = {.x = .0f, .y = .0f, .z = .0f},
@@ -40,12 +40,12 @@ int main() {
     }
     DisableCursor();
     while (!WindowShouldClose()) {
-        Vector2 mouse = GetMouseDelta();
-        cameraAngleX += mouse.x * .005f;
+        constexpr float distance = 25.f;
+        const Vector2 mouse = GetMouseDelta();
+        cameraAngleX += -mouse.x * .005f;
         cameraAngleY += mouse.y * .005f;
-        if (cameraAngleY > 1.4f) cameraAngleY = 1.4f;
-        if (cameraAngleY < .2f) cameraAngleY = .2f;
-        camera.position.x = camera.target.x + -sinf(cameraAngleX) * cosf(cameraAngleY) * distance;
+        cameraAngleY = std::clamp(cameraAngleY, .2f, 1.4f);
+        camera.position.x = camera.target.x + sinf(cameraAngleX) * cosf(cameraAngleY) * distance;
         camera.position.y = camera.target.y + sinf(cameraAngleY) * distance;
         camera.position.z = camera.target.z + cosf(cameraAngleX) * cosf(cameraAngleY) * distance;
         player->saveCurrentPosition();
@@ -57,6 +57,7 @@ int main() {
                 const BoundingBox body_ground = body_collision.rectangleBody(ground->v_position(), ground->v_scale());
                 if (body_collision.rectangle(body_player, body_ground)) {
                     player->updateOldPosition();
+                    gravitate->rollbackVelocity();
                     break;
                 }
         }
@@ -74,6 +75,7 @@ int main() {
             listener_focus.listener(*player, camera);
             player->rotateCameraWithPlayer(camera, distance);
            EndMode3D();
+        DrawFPS(10, 10);
         EndDrawing();
     }
     CloseWindow();

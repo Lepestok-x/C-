@@ -39,14 +39,14 @@ public:
         this->oldPosition = position;
     }
     void updateVelocity(const float& gravitate, const float& dt) {
-        this->velocityY += gravitate * dt;
-        this->position.y += velocityY * dt;
+        this->position.y += gravitate * dt;
     }
     void updateOldPosition() {
         this->position.y = oldPosition.y;
-        velocityY = .0f;
     }
-
+    void rollbackZ() {
+        this->position.x = oldPosition.z;
+    }
     void rotateCube(const float& angle) {
         this->angle = angle;
     }

@@ -13,8 +13,8 @@ public:
         Vector3 forward = Vector3Subtract(camera.target, camera.position);
         const float dt = GetFrameTime();
         forward.y = .0f;
-        const Vector3 right = {.x = -forward.z, .y = .0f, .z = forward.x};
         forward = Vector3Normalize(forward);
+        const Vector3 right = {.x = -forward.z, .y = .0f, .z = forward.x};
         Vector3 position = Vector3Zero();
         if (IsKeyDown(KEY_W)) position = Vector3Add(position, forward);
         if (IsKeyDown(KEY_S)) position = Vector3Subtract(position, forward);
@@ -23,12 +23,6 @@ public:
         if (position.x != .0f || position.z != .0f || position.y != .0f) {
             position = Vector3Normalize(position);
             const Vector3 velocity = Vector3Scale(position, normalSpeed * dt);
-            player.movePlayer(Vector3Add(player.v_position(), velocity));
-        }
-        if (IsKeyDown(KEY_SPACE)) position.y += normalize;
-        if (IsKeyDown(KEY_LEFT_SHIFT)) position.y -= normalize;
-        if (position.y != .0f) {
-            Vector3 velocity = Vector3Scale(position, normalSpeed * dt);
             player.movePlayer(Vector3Add(player.v_position(), velocity));
         }
     }
