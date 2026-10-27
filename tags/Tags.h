@@ -6,4 +6,7 @@
 #define RAYLIB_TAGS_H
 struct PlayerTag {};
 struct RobotTag {};
+struct CameraTag {};
+struct GlassTag {};
+struct ShaderTag {};
 #endif //RAYLIB_TAGS_H

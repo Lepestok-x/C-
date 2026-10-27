@@ -3,19 +3,18 @@ project(Raylib)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Raylib main.cpp
-        components/PositionComponent.h
-        components/VelocityComponent.h
-        systems/RenderSystem.h
+add_executable(Raylib main.cpp tags/Tags.h
+        engine/Engine.cpp
+        engine/Engine.h
+        components/Components.h
         systems/PlayerSystem.h
-        systems/RobotSystem.h
-        components/ColorComponent.h
-        components/ModelComponent.h
-        components/SizeComponent.h
-        tags/Tags.h
-        systems/CameraSystem.h
         systems/PlayerSystem.cpp
-        systems/RenderSystem.cpp)
+        systems/RenderSystem.cpp
+        systems/RenderSystem.h
+        systems/GlassSystem.cpp
+        systems/GlassSystem.h
+        systems/LampSystem.cpp
+        systems/LampSystem.h)
 
 target_include_directories(${PROJECT_NAME} PRIVATE dependencies/raylib/include)
 target_include_directories(${PROJECT_NAME} PRIVATE dependencies/entt)
