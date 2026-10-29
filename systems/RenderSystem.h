@@ -5,10 +5,7 @@
 #ifndef RAYLIB_RENDERSYSTEM_H
 #define RAYLIB_RENDERSYSTEM_H
 #include "entt.hpp"
-
-
 class RenderSystem {
-
 public:
     static void render(entt::registry& registry);
 };

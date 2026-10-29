@@ -9,8 +9,7 @@
 class  Engine {
 public:
     static void init();
-    static void update(float deltaTime);
-    static void render();
-    static void unload();
+    static void update(Camera &camera, float deltaTime);
+    static void render(const Camera &camera);
 };
 #endif //RAYLIB_ENGINE_H

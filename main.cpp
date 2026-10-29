@@ -13,14 +13,19 @@ int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
     InitWindow(screenWidth, screenHeight, title);
     SetTargetFPS(60);
-    entt::registry container;
+    Camera3D camera = {
+        .position = {.x = .0f, .y = 30.f, .z = 30.f},
+        .target = Vector3Zero(),
+        .up = {.x = .0f, .y = 1.f, .z = .0f},
+        .fovy = 60.f,
+        .projection = CAMERA_PERSPECTIVE
+    };
     Engine::init();
     while (!WindowShouldClose()) {
         const float deltaTime = GetFrameTime();
-        Engine::update(deltaTime);
-        Engine::render();
+        Engine::update(camera, deltaTime);
+        Engine::render(camera);
     }
     CloseWindow();
-    Engine::unload(); // Выгружаем ресурсы
     return 0;
 }

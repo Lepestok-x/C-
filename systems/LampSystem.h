@@ -8,7 +8,7 @@
 
 class LampSystem {
 public:
-   static void update(entt::registry& registry, const float deltaTime);
+   static void update(entt::registry& registry, float deltaTime);
 };
 
 

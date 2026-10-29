@@ -14,7 +14,17 @@ add_executable(Raylib main.cpp tags/Tags.h
         systems/GlassSystem.cpp
         systems/GlassSystem.h
         systems/LampSystem.cpp
-        systems/LampSystem.h)
+        systems/LampSystem.h
+        entities/Entity.cpp
+        entities/Entity.h
+        systems/CameraSystem.cpp
+        systems/CameraSystem.h
+        systems/CameraSystem.cpp
+        entities/Entity.cpp
+        systems/GravitySystem.cpp
+        systems/GravitySystem.h
+        systems/PhysicsSystem.cpp
+        systems/PhysicsSystem.h)
 
 target_include_directories(${PROJECT_NAME} PRIVATE dependencies/raylib/include)
 target_include_directories(${PROJECT_NAME} PRIVATE dependencies/entt)

@@ -6,9 +6,11 @@
 #define RAYLIB_COMPONENTS_H
 #include "raylib.h"
 
-struct PositionComponent {
+struct TransformComponent {
     Vector3 position{};
-    explicit PositionComponent(const Vector3 position) : position(position) {}
+    Vector3 velocity{};
+    Vector3 vel_position{};
+    explicit TransformComponent(const Vector3 position) : position(position) {}
 };
 struct SizeComponent {
     Vector3 size_v{};
@@ -35,23 +37,11 @@ struct ModelComponent {
         }
     }
 };
-struct ShaderComponent {
-    Shader shader{};
-    explicit ShaderComponent(const char* vrPath, const char* frPath) {
-        if (vrPath == nullptr && frPath == nullptr) {
-            TraceLog(LOG_FATAL, "Path not specified");
-            return;
-        }
-        this->shader = LoadShader(vrPath, frPath);
-        if (shader.id != 0) {
-            TraceLog(LOG_ERROR, "Shader not initialized");
-        }
-    }
-    ~ShaderComponent() {
-        if (shader.id != -1) {
-            UnloadShader(shader);
-            TraceLog(LOG_INFO, "Shader unloaded");
-        }
-    }
+struct GravitateComponent {
+    Vector3 gravity{};
+    explicit GravitateComponent(Vector3 gravity) : gravity(gravity) {}
+};
+struct PhysicsComponent {
+    mutable BoundingBox box{};
 };
 #endif //RAYLIB_COMPONENTS_H

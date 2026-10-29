@@ -9,4 +9,7 @@ struct RobotTag {};
 struct CameraTag {};
 struct GlassTag {};
 struct ShaderTag {};
+struct LampTag {};
+struct GravityTag {};
+struct PhysicsTag {};
 #endif //RAYLIB_TAGS_H
