@@ -15,8 +15,7 @@ struct TransformComponent {
 struct SizeComponent {
     Vector3 size_v{};
     float size{};
-    explicit SizeComponent(const Vector3 size_v) : size_v(size_v) {}
-    explicit SizeComponent(const float size) : size(size) {}
+    explicit SizeComponent(const Vector3 size_v, const float size) : size_v(size_v), size(size) {}
 };
 struct VelocityComponent {
     float velocity{};

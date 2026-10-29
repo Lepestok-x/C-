@@ -14,7 +14,7 @@ int main() {
     InitWindow(screenWidth, screenHeight, title);
     SetTargetFPS(60);
     Camera3D camera = {
-        .position = {.x = .0f, .y = 30.f, .z = 30.f},
+        .position = {.x = .0f, .y = 35.f, .z = 35.f},
         .target = Vector3Zero(),
         .up = {.x = .0f, .y = 1.f, .z = .0f},
         .fovy = 60.f,

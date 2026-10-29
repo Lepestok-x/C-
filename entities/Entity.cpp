@@ -13,7 +13,7 @@ void Entity::player(entt::registry& registry, const Vector3 size, const Color co
     registry.emplace_or_replace<ModelComponent>(player, GenMeshCube(size.x, size.y, size.z));
     registry.emplace_or_replace<TransformComponent>(player, Vector3Zero());
     registry.emplace_or_replace<VelocityComponent>(player, 50.f);
-    registry.emplace_or_replace<SizeComponent>(player, 2.f);
+    registry.emplace_or_replace<SizeComponent>(player, Vector3{.x = size.x, .y = size.y, .z = size.z}, 2.f);
     registry.emplace_or_replace<ColorComponent>(player, color);
     registry.emplace_or_replace<PhysicsComponent>(player);
     registry.emplace_or_replace<GravitateComponent>(player, Vector3{.x = -18.9f, .y = -18.9f, .z = -18.9f});
@@ -24,7 +24,7 @@ void Entity::glass(entt::registry& registry, const Vector3 size, const Color col
     registry.emplace_or_replace<PhysicsTag>(glass);
     registry.emplace_or_replace<ModelComponent>(glass, GenMeshCube(size.x, size.y, size.z));
     registry.emplace_or_replace<TransformComponent>(glass, Vector3{.x = .0f, .y = -35.0f, .z = -35.0f});
-    registry.emplace_or_replace<SizeComponent>(glass, 2.f);
+    registry.emplace_or_replace<SizeComponent>(glass, Vector3{.x = size.x, .y = size.y, .z = size.z}, 2.f);
     registry.emplace_or_replace<PhysicsComponent>(glass);
     registry.emplace_or_replace<ColorComponent>(glass, color);
 }
@@ -33,8 +33,8 @@ void Entity::lamp(entt::registry& registry, const Vector3 size, const Color colo
     registry.emplace_or_replace<LampTag>(lamp);
     registry.emplace_or_replace<PhysicsTag>(lamp);
     registry.emplace_or_replace<ModelComponent>(lamp, GenMeshCube(size.x, size.y, size.z));
-    registry.emplace_or_replace<TransformComponent>(lamp, Vector3{.x = .0f, .y = -25.0f, .z = .0f});
-    registry.emplace_or_replace<SizeComponent>(lamp, 2.f);
+    registry.emplace_or_replace<TransformComponent>(lamp, Vector3{.x = .0f, .y = -25.0f, .z = -10.0f});
+    registry.emplace_or_replace<SizeComponent>(lamp, Vector3{.x = size.x, .y = size.y, .z = size.z}, 2.f);
     registry.emplace_or_replace<ColorComponent>(lamp, color);
     registry.emplace_or_replace<PhysicsComponent>(lamp);
 }
