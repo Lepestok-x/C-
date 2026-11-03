@@ -1,11 +1,8 @@
 //
 // Created by admin on 10/27/26.
 //
-
-#ifndef RAYLIB_COMPONENTS_H
-#define RAYLIB_COMPONENTS_H
+#pragma once
 #include "raylib.h"
-
 struct TransformComponent {
     Vector3 position{};
     Vector3 velocity{};
@@ -43,4 +40,10 @@ struct GravitateComponent {
 struct PhysicsComponent {
     mutable BoundingBox box{};
 };
-#endif //RAYLIB_COMPONENTS_H
+struct ShaderComponent {
+
+};
+struct NormalizeComponent {
+    Vector3 normalize{};
+    float normal{1.f};
+};

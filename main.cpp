@@ -20,6 +20,7 @@ int main() {
         .fovy = 60.f,
         .projection = CAMERA_PERSPECTIVE
     };
+    DisableCursor();
     Engine::init();
     while (!WindowShouldClose()) {
         const float deltaTime = GetFrameTime();

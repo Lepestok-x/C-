@@ -4,9 +4,10 @@
 #include "Engine.h"
 #include "entt.hpp"
 #include "raylib.h"
-#include "../entities/Entity.h"
+#include "../factory/Entity.h"
 #include "../systems/CameraSystem.h"
-#include "../systems/GravitySystem.h"
+#include "../systems/LampSystem.h"
+#include "../systems/MovementSystem.h"
 #include "../systems/PhysicsSystem.h"
 #include "../systems/PlayerSystem.h"
 #include "../systems/RenderSystem.h"
@@ -18,9 +19,10 @@ void Engine::init() {
 }
 
 void Engine::update(Camera& camera, const float deltaTime) {
-    PlayerSystem::update(registry, deltaTime);
-    GravitySystem::update(registry, deltaTime);
+    PlayerSystem::update(registry, camera);
     PhysicsSystem::update(registry, deltaTime);
+    LampSystem::update(registry, deltaTime);
+    MovementSystem::update(registry, deltaTime);
     CameraSystem::update(registry, camera, deltaTime);
 }
 

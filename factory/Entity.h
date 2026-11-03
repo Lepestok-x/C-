@@ -1,13 +1,10 @@
 //
 // Created by admin on 10/29/26.
 //
-
+#include "entt.hpp"
+#include "raylib.h"
 #ifndef RAYLIB_ENTITYFACTORY_H
 #define RAYLIB_ENTITYFACTORY_H
-#include "entt.hpp"
-#include "../components/Components.h"
-#include "../tags/Tags.h"
-
 
 class Entity {
 
